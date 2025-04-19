@@ -2,7 +2,7 @@ import React from 'react'
 
 function RecipeCard  ({name,contributor,origin,description,ingredients})  {
 
-    const ingredientList = ingredients.split(',').map(item => item.trim());
+    // const ingredientList = ingredients.split(',').map(item => item.trim());
   return (
     <div style={{
         border: '1px solid black',
@@ -20,7 +20,7 @@ function RecipeCard  ({name,contributor,origin,description,ingredients})  {
             <strong>Ingredients:</strong>
 
                 <ul>
-                    {ingredientList.map((item,index)=>(
+                    {ingredients.map((item,index)=>(
                         <li key={index}>{item}</li>
                     ))}
                 </ul>

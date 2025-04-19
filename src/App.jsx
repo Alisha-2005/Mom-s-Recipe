@@ -1,78 +1,27 @@
-import { useState } from 'react'
-import RecipeCard from './components/RecipeCard'
+import { Routes, Route, Link } from 'react-router-dom'
+import Home from './pages/Home'
+import AddRecipe from './pages/AddRecipe'
+import About from './pages/About'
+import Recipes from './pages/Recipes'
+
 import './App.css'
 
 function App() {
-
-  const [searchQuery,setSearchQuery] = useState('');
-
-  const [recipes] = useState([
-    {
-      name: "Chole Bhature",
-      contributor: "Mom",
-      origin: "Delhi",
-      description: "Spicy chickpeas with fried bread.",
-      ingredients: "Chickpeas, flour, spices"
-    },
-    {
-      name: "Idli Sambhar",
-      contributor: "Grandma",
-      origin: "Tamil Nadu",
-      description: "Steamed rice cakes with lentil stew.",
-      ingredients: "Rice, lentils, curry leaves"
-    },
-    {
-      name: "Paneer Butter Masala",
-      contributor: "Mom",
-      origin: "Punjab",
-      description: "Creamy tomato curry with paneer.",
-      ingredients: "Paneer, tomato, cream, spices"
-    },
-    {
-      name: "Aloo Paratha",
-      contributor: "Mom",
-      origin: "Punjab",
-      description: "Stuffed flatbread with spiced mashed potatoes.",
-      ingredients: "Wheat flour, Boiled potatoes, Onion, Spices"
-    },
-    {
-      name: "Rasogolla",
-      contributor: "Grandma",
-      origin: "West Bengal",
-      description: "Soft sweet balls in sugar syrup.",
-      ingredients: "Chenna, Sugar, Water, Cardamom"
-    }
-  ])
-
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (Array.isArray(recipe.ingredients) && recipe.ingredients.some((ing)=>ing.toLowerCase().includes(searchQuery.toLowerCase()))) ||
-    recipe.origin.toLowerCase().includes(searchQuery.toLowerCase())
-  )
-
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif'}}>
-      <h1> 📖 Recipes</h1>
+    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+      <nav style={{ marginBottom: '1rem' }}>
+        <Link to="/">Home</Link> |{' '}
+        <Link to="/recipes">Recipes</Link> |{' '}
+        <Link to="/add">Add Recipe</Link> |{' '}
+        <Link to="/about">About</Link>
+      </nav>
 
-      <input 
-         type = 'text'
-         placeholder = 'Search for recipes...'
-         value={searchQuery}
-         onChange={(e)=> setSearchQuery(e.target.value)}
-         className='search-input'
-      />
-
-      {filteredRecipes.length > 0 ? (
-        filteredRecipes.map((recipe, index) => (
-          <RecipeCard key={index} {...recipe} />
-        ))
-      ) : (
-        <p>No recipes found.</p>
-      )}
-
-      {/* {recipes.map((recipe, index)=>(
-        <RecipeCard key = {index} {...recipe} />
-      ))}  */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/recipes" element={<Recipes />} />
+        <Route path="/add" element={<AddRecipe />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
     </div>
   )
 }

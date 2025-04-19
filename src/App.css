@@ -41,13 +41,7 @@
   color: #888;
 }
 /* App.css */
-.app {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-family: Arial, sans-serif;
-  background: #fdfdfd;
-}
+
 
 .search-input {
   padding: 0.5rem 1rem;
