@@ -3,10 +3,13 @@ import Home from './pages/Home'
 import AddRecipe from './pages/AddRecipe'
 import About from './pages/About'
 import Recipes from './pages/Recipes'
-
+import { RecipeProvider } from './context/RecipeContext'
+import { useContext } from 'react'
+import { RecipeContext } from './context/RecipeContext'
 import './App.css'
 
 function App() {
+  const { recipes } = useContext(RecipeContext)
   return (
     <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
       <nav style={{ marginBottom: '1rem' }}>

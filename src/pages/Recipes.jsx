@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import RecipeCard from '../components/RecipeCard'
+import { RecipeContext } from '../context/RecipeContext'
 
 function Recipes() {
   const [searchQuery, setSearchQuery] = useState('');
