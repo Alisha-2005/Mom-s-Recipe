@@ -1,72 +1,60 @@
-import { useState } from 'react'
-import RecipeCard from '../components/RecipeCard'
-import { RecipeContext } from '../context/RecipeContext'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import RecipeCard from '../components/RecipeCard';
+// import './Recipes.css';
 
 function Recipes() {
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const [recipes] = useState([
-    {
-      name: "Chole Bhature",
-      contributor: "Mom",
-      origin: "Delhi",
-      description: "Spicy chickpeas with fried bread.",
-      ingredients: ["Chickpeas", "flour", "spices"]
-    },
-    {
-      name: "Idli Sambhar",
-      contributor: "Grandma",
-      origin: "Tamil Nadu",
-      description: "Steamed rice cakes with lentil stew.",
-      ingredients: ["Rice", "lentils", "curry leaves"]
-    },
-    {
-      name: "Paneer Butter Masala",
-      contributor: "Mom",
-      origin: "Punjab",
-      description: "Creamy tomato curry with paneer.",
-      ingredients: ["Paneer", "tomato", "cream", "spices"]
-    },
-    {
-      name: "Aloo Paratha",
-      contributor: "Mom",
-      origin: "Punjab",
-      description: "Stuffed flatbread with spiced mashed potatoes.",
-      ingredients: ["Wheat flour", "Boiled potatoes", "Onion", "Spices"]
-    },
-    {
-      name: "Rasogolla",
-      contributor: "Grandma",
-      origin: "West Bengal",
-      description: "Soft sweet balls in sugar syrup.",
-      ingredients: ["Chenna", "Sugar", "Water", "Cardamom"]
-    }
-  ]);
+  // Fetch recipes from JSON Server
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/recipes');
+        setRecipes(response.data);
+      } catch (err) {
+        setError('Failed to load recipes. Please make sure JSON Server is running.');
+        console.error('Error fetching recipes:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchRecipes();
+  }, []);
+
+  // Filter recipes based on search query
   const filteredRecipes = recipes.filter((recipe) =>
     recipe.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    recipe.origin.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (Array.isArray(recipe.ingredients) &&
       recipe.ingredients.some((ing) =>
         ing.toLowerCase().includes(searchQuery.toLowerCase())
-      )) ||
-    recipe.origin.toLowerCase().includes(searchQuery.toLowerCase())
+      ))
   );
 
+  // Show loading or error messages
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="error">{error}</p>;
+
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>📖 Recipes</h1>
+    <div className="recipes-container">
+      <h2>All Recipes</h2>
 
       <input
         type="text"
-        placeholder="Search for recipes..."
+        placeholder="Search recipes..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         className="search-input"
       />
 
       {filteredRecipes.length > 0 ? (
-        filteredRecipes.map((recipe, index) => (
-          <RecipeCard key={index} {...recipe} />
+        filteredRecipes.map((recipe) => (
+          <RecipeCard key={recipe.id} {...recipe} />
         ))
       ) : (
         <p>No recipes found.</p>

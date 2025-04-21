@@ -1,27 +1,36 @@
-import {createContext  , useState} from 'react'
-
+import {createContext  , useState , useEffect} from 'react'
+import axios from 'axios'
 
 export const RecipeContext =createContext()
 
-export const RecipeProvider = ({children }) => {
-    const [recipes, setRecipes] = useState([
-        {
-            name: 'Pasta',
-            contributor: 'Mom',
-            origin: 'Italy',
-            description: 'A classic Italian dish made with love.',
-            ingredients: ['Pasta', 'Tomato Sauce', 'Cheese']
-        },
-        {
-            name: 'Samosa',
-            contributor: 'Grandma',
-            origin: 'India',
-            description: 'A crispy snack filled with spiced potatoes.',
-            ingredients: ['Potatoes', 'Spices', 'Dough']
-        }   
-    ])
+export const RecipeProvider = ({ children }) => {
+    const [recipes, setRecipes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+  
+    useEffect(() => {
+      axios.get('http://localhost:3001/recipes')
+        .then((res) => {
+          setRecipes(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error('Error fetching recipes:', err);
+          setError('Could not fetch recipes');
+          setLoading(false);
+        });
+    }, []);
+  
+    const addRecipe = async (newRecipe) => {
+      try {
+        const res = await axios.post('http://localhost:3001/recipes', newRecipe);
+        setRecipes((prev) => [...prev, res.data]);
+      } catch (err) {
+        console.error('Error adding recipe:', err);
+      }
+    };
      return (
-        <RecipeContext.Provider value={{ recipes,setRecipes}}>
+        <RecipeContext.Provider value={{ recipes,setRecipes,loading,error,addRecipe }}>
             {children}
         </RecipeContext.Provider>
      )

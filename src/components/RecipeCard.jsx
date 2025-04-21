@@ -1,32 +1,30 @@
-import React from 'react'
+import React from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function RecipeCard  ({name,contributor,origin,description,ingredients})  {
+function RecipeCard({ id, name, contributor, origin, description, ingredients }) {
+  const navigate = useNavigate();
 
-    // const ingredientList = ingredients.split(',').map(item => item.trim());
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:3001/recipes/${id}`);
+      navigate('/recipes');  
+    } catch (err) {
+      console.error('Error deleting recipe:', err);
+    }
+  };
+
   return (
-    <div style={{
-        border: '1px solid black',
-        pading : '1rem',
-        margin : ' 1rem',
-        borderRadius : '8px',
-        background:'#fff',
-    }}>
-        <h2>{name}</h2>
-        <p><strong>By:</strong>{contributor}</p>
-        <p><strong>origin:</strong>{origin}</p>
-        <p><strong>Description:</strong>{description}</p>
-
-        <div>
-            <strong>Ingredients:</strong>
-
-                <ul>
-                    {ingredients.map((item,index)=>(
-                        <li key={index}>{item}</li>
-                    ))}
-                </ul>
-        </div>
+    <div className="recipe-card">
+      <h3>{name}</h3>
+      <p>Contributor: {contributor}</p>
+      <p>Origin: {origin}</p>
+      <p>Description: {description}</p>
+      <p>Ingredients: {ingredients.join(', ')}</p>
+      <button onClick={() => navigate(`/edit-recipe/${id}`)}>Edit Recipe</button>
+      <button onClick={handleDelete}>Delete Recipe</button>
     </div>
-  )
+  );
 }
 
-export default RecipeCard
+export default RecipeCard;

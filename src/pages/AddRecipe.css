@@ -1,69 +1,71 @@
-.add-recipe-container {
-    max-width: 600px;
+.recipes-container {
+    max-width: 1200px;
     margin: 2rem auto;
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    background-color: #fdfdfd;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  h2 {
+  .recipes-container h2 {
     text-align: center;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .recipe-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-between;
+  }
+  
+  .recipe-card {
+    background-color: white;
+    padding: 1rem;
+    width: 30%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .recipe-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .recipe-card h3 {
+    font-size: 1.2rem;
     color: #333;
   }
   
-  .recipe-form label {
-    display: block;
-    margin-bottom: 1rem;
-    font-weight: 600;
-    color: #444;
-  }
-  
-  .recipe-form input,
-  .recipe-form textarea {
-    width: 100%;
-    padding: 0.5rem;
-    margin-top: 0.4rem;
+  .recipe-card p {
     font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    outline: none;
-    transition: border 0.2s ease;
+    color: #666;
   }
   
-  .recipe-form input:focus,
-  .recipe-form textarea:focus {
-    border-color: #4a90e2;
+  .recipe-card .ingredients {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+    list-style-type: none;
+    padding-left: 0;
   }
   
-  .recipe-form textarea {
-    min-height: 100px;
-    resize: vertical;
+  .recipe-card .ingredients li {
+    margin-bottom: 0.3rem;
   }
   
-  .error {
-    color: red;
-    font-size: 0.85rem;
-    margin-top: 0.2rem;
-    display: block;
-  }
-  
-  .recipe-form button {
-    margin-top: 1.5rem;
-    width: 100%;
-    background-color: #4a90e2;
+  .recipe-card .btn {
+    background-color: #4CAF50;
     color: white;
-    font-size: 1rem;
-    padding: 0.7rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 4px;
+    padding: 0.5rem;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
   }
   
-  .recipe-form button:hover {
-    background-color: #357ab8;
+  .recipe-card .btn:hover {
+    background-color: #45a049;
   }
   

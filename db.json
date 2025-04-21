@@ -1,0 +1,53 @@
+{
+  "recipes": [
+    {
+      "id": "1",
+      "name": "Chole Bhature",
+      "contributor": "Mom",
+      "origin": "Delhi",
+      "description": "Spicy chickpeas with fried bread.",
+      "ingredients": [
+        "Chickpeas",
+        "flour",
+        "spices"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Idli Sambhar",
+      "contributor": "Grandma",
+      "origin": "Tamil Nadu",
+      "description": "Steamed rice cakes with lentil stew.",
+      "ingredients": [
+        "Rice",
+        "lentils",
+        "curry leaves"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Paneer Butter Masala",
+      "contributor": "Mom",
+      "origin": "Punjab",
+      "description": "Creamy tomato curry with paneer.",
+      "ingredients": [
+        "Paneer",
+        "tomato",
+        "cream",
+        "spices"
+      ]
+    },
+    {
+      "id": "a306",
+      "name": "roti ",
+      "contributor": "mom ",
+      "origin": "home ",
+      "description": "round wheat flour roties \n",
+      "ingredients": [
+        "flour",
+        "water",
+        "oil"
+      ]
+    }
+  ]
+}

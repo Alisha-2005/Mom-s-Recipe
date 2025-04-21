@@ -1,30 +1,29 @@
 import { useState, useContext } from 'react';
 import { RecipeContext } from '../context/RecipeContext';
 import './AddRecipe.css';
+import { useNavigate } from 'react-router-dom';
 
 function AddRecipe() {
-  const { recipes, setRecipes } = useContext(RecipeContext);
+  const { addRecipe } = useContext(RecipeContext);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: '',
     contributor: '',
     origin: '',
     description: '',
-    ingredients: ''
+    ingredients: '',
   });
 
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.name) newErrors.name = 'Recipe name is required';
+    if (!formData.name) newErrors.name = 'Name is required';
     if (!formData.contributor) newErrors.contributor = 'Contributor is required';
     if (!formData.origin) newErrors.origin = 'Origin is required';
     if (!formData.description) newErrors.description = 'Description is required';
@@ -32,7 +31,7 @@ function AddRecipe() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
 
@@ -40,35 +39,18 @@ function AddRecipe() {
       setErrors(validationErrors);
     } else {
       const newRecipe = {
-        name: formData.name,
-        contributor: formData.contributor,
-        origin: formData.origin,
-        description: formData.description,
-        ingredients: formData.ingredients
-          .split(',')
-          .map(item => item.trim())
-          .filter(item => item !== '')
+        ...formData,
+        ingredients: formData.ingredients.split(',').map((i) => i.trim()),
       };
 
-      setRecipes([...recipes, newRecipe]);
-
-      // Reset form
-      setFormData({
-        name: '',
-        contributor: '',
-        origin: '',
-        description: '',
-        ingredients: ''
-      });
-
-      setErrors({});
-      alert('Recipe added successfully!');
+      await addRecipe(newRecipe);
+      navigate('/recipes'); // Redirect to recipes page
     }
   };
 
   return (
     <div className="add-recipe-container">
-      <h2>Add a New Recipe</h2>
+      <h2>Add New Recipe</h2>
       <form onSubmit={handleSubmit} className="recipe-form">
         <label>
           Name:
@@ -95,7 +77,7 @@ function AddRecipe() {
         </label>
 
         <label>
-          Ingredients (comma-separated):
+          Ingredients (comma separated):
           <input name="ingredients" value={formData.ingredients} onChange={handleChange} />
           {errors.ingredients && <span className="error">{errors.ingredients}</span>}
         </label>
