@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import RecipeCard from '../components/RecipeCard';
-// import './Recipes.css';
+import './Recipes.css';
 
 function Recipes() {
   const [recipes, setRecipes] = useState([]);
@@ -25,6 +24,19 @@ function Recipes() {
 
     fetchRecipes();
   }, []);
+
+  // Delete a recipe from the server and state
+  const deleteRecipe = async (id) => {
+    try {
+      console.log(`Attempting to delete recipe with id: ${id}`); // Debugging log
+      await axios.delete(`http://localhost:3001/recipes/${id}`);
+      setRecipes(recipes.filter((recipe) => recipe.id !== id)); // Remove recipe from state
+      console.log(`Recipe with id: ${id} deleted`); // Debugging log
+    } catch (err) {
+      setError('Failed to delete recipe. Please try again.');
+      console.error('Error deleting recipe:', err);
+    }
+  };
 
   // Filter recipes based on search query
   const filteredRecipes = recipes.filter((recipe) =>
@@ -52,13 +64,29 @@ function Recipes() {
         className="search-input"
       />
 
-      {filteredRecipes.length > 0 ? (
-        filteredRecipes.map((recipe) => (
-          <RecipeCard key={recipe.id} {...recipe} />
-        ))
-      ) : (
-        <p>No recipes found.</p>
-      )}
+      <div className="recipe-list">
+        {filteredRecipes.length > 0 ? (
+          filteredRecipes.map((recipe) => (
+            <div key={recipe.id} className="recipe-card">
+              <h3><strong>{recipe.name}</strong></h3>
+              <p><strong>Origin: </strong>{recipe.origin}</p>
+              <p>{recipe.description}</p>
+              <ul className="ingredients">
+                {recipe.ingredients.map((ingredient, index) => (
+                  <li key={index}><strong>{ingredient}</strong></li>
+                ))}
+              </ul>
+              <button className="btn">Edit Recipe</button>
+              {/* Delete Button */}
+              <button className="delete-btn" onClick={() => deleteRecipe(recipe.id)}>
+                Delete Recipe
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>No recipes found.</p>
+        )}
+      </div>
     </div>
   );
 }
