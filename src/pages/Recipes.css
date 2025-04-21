@@ -1,0 +1,10 @@
+/* Add your styles here */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.recipes {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
